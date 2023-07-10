@@ -35,6 +35,7 @@ pygame.draw.rect(gameDisplay, blue, [x, y, gridSize, gridSize]) #set snake head 
 pygame.display.update()
 
 gameOver = False #the game over state
+clock = pygame.time.Clock()
 
 
 '''
@@ -58,18 +59,20 @@ while not gameOver:
                 print("snake goes RIGHT")
             if event.key == pygame.K_UP:
                 dx = 0
-                dy = gridSize
+                dy = -gridSize
                 print("snake goes UP")
             if event.key == pygame.K_DOWN:
                 dx = 0
-                dy = -gridSize
+                dy = gridSize
                 print("snake goes DOWN")
                 
     x += dx
     y += dy
     gameDisplay.fill(black)
     pygame.draw.rect(gameDisplay, blue, [x, y, gridSize, gridSize])
+    
     pygame.display.update()
+    clock.tick(5) #updates the game at 5fps
 
 
 #quit the game
