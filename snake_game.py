@@ -63,11 +63,11 @@ while not gameOver:
                 dy = -gridSize
                 print("snake goes DOWN")
                 
-        x += dx
-        y += dy
-        gameDisplay.fill(black)
-        pygame.draw.rect(gameDisplay, blue, [x, y, gridSize, gridSize])
-        pygame.display.update()
+    x += dx
+    y += dy
+    gameDisplay.fill(black)
+    pygame.draw.rect(gameDisplay, blue, [x, y, gridSize, gridSize])
+    pygame.display.update()
 
 
 #quit the game
