@@ -8,11 +8,13 @@ varibles & params
 res = 512
 gridSize = 16
 
-#snake params
+#colors
 blue = (0, 0, 255)
 red = (255, 0, 0)
 white = (255, 255, 255)
 black = (0, 0, 0)
+
+#snake position params
 x = res / 2
 y = res / 2
 dx = 0 #delta x, should be set to different values according to key press
