@@ -67,6 +67,10 @@ while not gameOver:
                 dy = gridSize
                 print("snake goes DOWN")
                 
+    #ends the game if snake bumps into the bundary
+    if x >= res or x < 0 or y >= res or y < 0:
+        gameOver = True
+
     x += dx
     y += dy
     gameDisplay.fill(black)
