@@ -11,6 +11,12 @@ gridSize = 16
 #snake params
 blue = (0, 0, 255)
 red = (255, 0, 0)
+white = (255, 255, 255)
+black = (0, 0, 0)
+x = res / 2
+y = res / 2
+dx = 0 #delta x, should be set to different values according to key press
+dy = 0 #delta y
 
 
 '''
@@ -23,7 +29,7 @@ pygame.init()
 gameDisplay = pygame.display.set_mode(windowRes)
 pygame.display.set_caption("Snake Game :D")
 
-pygame.draw.rect(gameDisplay, blue, [res/2, res/2, gridSize, gridSize]) #set snake head position to center 
+pygame.draw.rect(gameDisplay, blue, [x, y, gridSize, gridSize]) #set snake head position to center 
 pygame.display.update()
 
 gameOver = False #the game over state
@@ -41,9 +47,26 @@ while not gameOver:
             
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
+                dx = -gridSize
+                dy = 0
                 print("snake goes LEFT")
-            
-        pygame.draw.rect(gameDisplay, blue, [res/2, res/2, gridSize, gridSize])
+            if event.key == pygame.K_RIGHT:
+                dx = gridSize
+                dy = 0
+                print("snake goes RIGHT")
+            if event.key == pygame.K_UP:
+                dx = 0
+                dy = gridSize
+                print("snake goes UP")
+            if event.key == pygame.K_DOWN:
+                dx = 0
+                dy = -gridSize
+                print("snake goes DOWN")
+                
+        x += dx
+        y += dy
+        gameDisplay.fill(black)
+        pygame.draw.rect(gameDisplay, blue, [x, y, gridSize, gridSize])
         pygame.display.update()
 
 
