@@ -105,7 +105,7 @@ while restart:
             quitGameDetection()
             snakeControlDetection()
                 
-        gameRules()
+        gameRules() #applys game rules
 
         x += dx
         y += dy
