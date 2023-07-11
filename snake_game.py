@@ -130,6 +130,7 @@ while restart:
             snakeControlDetection()
             
         moveSnake()
+        
         gameDisplay.fill(black)
         spawnFood() #spawns the food
         gameRules() #applys game rules
@@ -143,6 +144,7 @@ while restart:
     '''
     restart interface
     '''
+    gameDisplay.fill(black)
     message("Game Over, press R to restart.", white)
     pygame.display.update()
     while not restart:
