@@ -82,10 +82,9 @@ def spawnFood():
     if eaten:
         foodX = round(random.randrange(0, res) / gridSize) * gridSize
         foodY = round(random.randrange(0, res) / gridSize) * gridSize
+        print("Food spawn position", (foodX, foodY))
     pygame.draw.rect(gameDisplay, red, [foodX, foodY, gridSize, gridSize])
     eaten = False
-    
-    print("Food spawn position", (foodX, foodY))
 
 
 '''
