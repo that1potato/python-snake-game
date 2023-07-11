@@ -22,6 +22,14 @@ def message(msg,color):
     mesg = font_style.render(msg, True, color)
     gameDisplay.blit(mesg, [0, 0])
 
+def quitGameDetection():
+    '''
+    quit the game if the x button on the window is pressed
+    '''
+    if event.type == pygame.QUIT:
+        quit()
+
+
 '''
 game session
 '''
@@ -58,9 +66,7 @@ while restart:
     while not gameOver:
         for event in pygame.event.get():
             #print(event)
-            #quit the game if the quit button on the window is pressed
-            if event.type == pygame.QUIT: 
-                quit()
+            quitGameDetection()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
@@ -102,8 +108,7 @@ while restart:
     while not restart:
         print(restart)
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                quit()
+            quitGameDetection()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
                     restart = True
