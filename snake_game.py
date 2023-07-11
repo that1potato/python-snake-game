@@ -17,15 +17,9 @@ red = (255, 0, 0)
 white = (255, 255, 255)
 black = (0, 0, 0)
 
-#snake position params
-x = res / 2
-y = res / 2
-dx = 0 #delta x, should be set to different values according to key press
-dy = 0 #delta y
-
 def message(msg,color):
     mesg = font_style.render(msg, True, color)
-    gameDisplay.blit(mesg, [res / 2, res / 2])
+    gameDisplay.blit(mesg, [0, 0])
 
 '''
 game session
@@ -34,20 +28,26 @@ while restart:
     '''
     game initialization
     '''
-    windowRes = (res, res)
-    print("game resolution set to: ", windowRes)
-
     pygame.init()
+    windowRes = (res, res)
     gameDisplay = pygame.display.set_mode(windowRes)
     pygame.display.set_caption("Snake Game :D")
     font_style = pygame.font.SysFont(None, 50)
 
-    pygame.draw.rect(gameDisplay, blue, [x, y, gridSize, gridSize]) #set snake head position to center 
-    pygame.display.update()
-
     gameOver = False #the game over state
     restart = False
     clock = pygame.time.Clock()
+    
+    #initialize/reset position params
+    x = res / 2
+    y = res / 2
+    dx = 0 #delta x, should be set to different values according to key press
+    dy = 0 #delta y
+    
+    pygame.draw.rect(gameDisplay, blue, [x, y, gridSize, gridSize]) #set snake head position to center 
+    pygame.display.update()
+    
+    print("game resolution set to: ", windowRes)
 
 
     '''
@@ -94,8 +94,16 @@ while restart:
     '''
     restart interface
     '''
-    message("Game Over, press R to restart.", red)
+    message("Game Over, press R to restart.", white)
     pygame.display.update()
+    while not restart:
+        print(restart)
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    restart = True
+                    break
+        clock.tick(5)
 
 #quit the game
 pygame.display.quit()
