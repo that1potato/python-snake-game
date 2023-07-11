@@ -64,15 +64,34 @@ def moveSnake():
     x += dx
     y += dy
 
+def drawSnake(length, xCord, yCord):
+    '''
+    draws the snake
+    '''
+    if length == 1:
+        pygame.draw.rect(gameDisplay, blue, [x, y, gridSize, gridSize])
+    else:
+        drawSnake(length - 1, )
+
 def gameRules():
     '''
     defines the game rules,
-    any unsatisfied condition should cause gameOver = True
+    any unsatisfied condition should cause gameOver = True,
+    when the snake eats the food score should +1
     '''
-    global gameOver
+    global gameOver, score, eaten, snakeLength
     #ends the game if snake bumps into the bundary
     if x >= res or x < 0 or y >= res or y < 0:
         gameOver = True
+    
+    #ends the game if snake bumps into itself
+    
+    #score++ and snakeLength++ when the snake eats the food
+    if x == foodX and y == foodY:
+        score += 1
+        snakeLength += 1
+        eaten = True
+        print("yum~")
 
 def spawnFood():
     '''
@@ -107,11 +126,12 @@ while restart:
     score = 0
     clock = pygame.time.Clock()
     
-    #initialize/reset position params
+    #initialize/reset snake params
     x = res / 2
     y = res / 2
     dx = 0 #delta x, should be set to different values according to key press
     dy = 0 #delta y
+    snakeLength = 1
     
     pygame.draw.rect(gameDisplay, blue, [x, y, gridSize, gridSize]) #set snake head position to center 
     pygame.display.update()
@@ -127,7 +147,6 @@ while restart:
             #print(event)
             quitGameDetection()
             snakeControlDetection()
-            
         moveSnake()
         
         gameDisplay.fill(black)
