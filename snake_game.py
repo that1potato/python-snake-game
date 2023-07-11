@@ -1,4 +1,5 @@
 import pygame
+import random
 
 
 '''
@@ -55,6 +56,14 @@ def snakeControlDetection():
             dy = gridSize
             print("snake going DOWN")
 
+def moveSnake():
+    '''
+    moves the snake
+    '''
+    global x, y
+    x += dx
+    y += dy
+
 def gameRules():
     '''
     defines the game rules,
@@ -64,6 +73,19 @@ def gameRules():
     #ends the game if snake bumps into the bundary
     if x >= res or x < 0 or y >= res or y < 0:
         gameOver = True
+
+def spawnFood():
+    '''
+    spawn food in random positions and reset eaten state
+    '''
+    global eaten, foodX, foodY
+    if eaten:
+        foodX = round(random.randrange(0, res) / gridSize) * gridSize
+        foodY = round(random.randrange(0, res) / gridSize) * gridSize
+    pygame.draw.rect(gameDisplay, red, [foodX, foodY, gridSize, gridSize])
+    eaten = False
+    
+    print("Food spawn position", (foodX, foodY))
 
 
 '''
@@ -82,6 +104,8 @@ while restart:
     gameOver = False #the game over state
     restart = False
     gameQuit = False
+    eaten = True
+    score = 0
     clock = pygame.time.Clock()
     
     #initialize/reset position params
@@ -104,12 +128,11 @@ while restart:
             #print(event)
             quitGameDetection()
             snakeControlDetection()
-                
-        gameRules() #applys game rules
-
-        x += dx
-        y += dy
+            
+        moveSnake()
         gameDisplay.fill(black)
+        spawnFood() #spawns the food
+        gameRules() #applys game rules
         pygame.draw.rect(gameDisplay, blue, [x, y, gridSize, gridSize])
 
         pygame.display.update()
@@ -123,7 +146,6 @@ while restart:
     message("Game Over, press R to restart.", white)
     pygame.display.update()
     while not restart:
-        print(restart)
         for event in pygame.event.get():
             quitGameDetection()
             if event.type == pygame.KEYDOWN:
