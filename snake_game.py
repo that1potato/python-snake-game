@@ -36,6 +36,7 @@ while restart:
 
     gameOver = False #the game over state
     restart = False
+    gameQuit = False
     clock = pygame.time.Clock()
     
     #initialize/reset position params
@@ -58,7 +59,7 @@ while restart:
             #print(event)
             #quit the game if the quit button on the window is pressed
             if event.type == pygame.QUIT: 
-                gameOver = True
+                quit()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
@@ -89,6 +90,7 @@ while restart:
 
         pygame.display.update()
         clock.tick(5) #updates the game at 5fps
+    
 
 
     '''
@@ -99,6 +101,8 @@ while restart:
     while not restart:
         print(restart)
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
                     restart = True
