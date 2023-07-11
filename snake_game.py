@@ -15,6 +15,9 @@ red = (255, 0, 0)
 white = (255, 255, 255)
 black = (0, 0, 0)
 
+'''
+helpers
+'''
 def message(msg,color):
     mesg = font_style.render(msg, True, color)
     gameDisplay.blit(mesg, [0, 0])
