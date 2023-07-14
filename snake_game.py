@@ -37,41 +37,35 @@ def snakeControlDetection():
     '''
     control snake movement with UP, DOWN, LEFT, RIGHT
     '''
-    global dx, dy, paths
+    global dx, dy, paths, tempPath
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_LEFT:
             dx = -gridSize
             dy = 0
             tempPath = "LEFT"
-            paths += tempPath
-            paths += ","
         if event.key == pygame.K_RIGHT:
             dx = gridSize
             dy = 0
             tempPath = "RIGHT"
-            paths += tempPath
-            paths += ","
         if event.key == pygame.K_UP:
             dx = 0
             dy = -gridSize
             tempPath = "UP"
-            paths += tempPath
-            paths += ","
         if event.key == pygame.K_DOWN:
             dx = 0
             dy = gridSize
             tempPath = "DOWN"
-            paths += tempPath
-            paths += ","
         print("snake going", tempPath)
 
 def moveSnake():
     '''
     moves the snake
     '''
-    global x, y
+    global x, y, paths, tempPath
     x += dx
     y += dy
+    paths += tempPath
+    paths += ","
 
 def drawSnake(length, xCord, yCord, path):
     '''
@@ -79,8 +73,6 @@ def drawSnake(length, xCord, yCord, path):
     '''
     lastPath = getLastElement(path)
     previousPaths = getPreviousPart(path)
-    print(previousPaths)
-    print(lastPath)
     if length == 1:
         pygame.draw.rect(gameDisplay, blue, [xCord, yCord, gridSize, gridSize])
     else: #length > 1
@@ -130,17 +122,19 @@ def getLastElement(pathString):
     '''
     return the last element in the given string
     '''
-    paths = pathString.strip().split(',')
-    lastElement = paths[-1].strip()
-    return lastElement
+    p = pathString.strip().split(',')
+    last_element = p[-1].strip()
+    if not last_element:
+        last_element = p[-2].strip()
+    return last_element
 
 def getPreviousPart(pathString):
     '''
     return the previous element in the given string,
     excluding the last element
     '''
-    paths = pathString.strip().split(',')
-    previousPart = ", ".join(paths[:-1]).strip()
+    p = pathString.strip().split(',')
+    previousPart = ", ".join(p[:-1]).strip()
     return previousPart
 
 
@@ -171,6 +165,7 @@ while restart:
     dy = 0 #delta y
     snakeLength = 1
     paths = "" #records the turns snake has taken
+    tempPath = ""
     
     drawSnake(snakeLength, x, y, paths)
     pygame.display.update()
@@ -193,7 +188,7 @@ while restart:
         drawSnake(snakeLength, x, y, paths)
         
         pygame.display.update()
-        clock.tick(5) #updates the game at 5fps
+        clock.tick(3) #updates the game at 5fps
     
     
     
