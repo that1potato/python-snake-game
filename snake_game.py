@@ -37,24 +37,33 @@ def snakeControlDetection():
     '''
     control snake movement with UP, DOWN, LEFT, RIGHT
     '''
-    global dx, dy
+    global dx, dy, paths
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_LEFT:
             dx = -gridSize
             dy = 0
-            print("snake going LEFT")
+            tempPath = "LEFT"
+            paths += tempPath
+            paths += ","
         if event.key == pygame.K_RIGHT:
             dx = gridSize
             dy = 0
-            print("snake going RIGHT")
+            tempPath = "RIGHT"
+            paths += tempPath
+            paths += ","
         if event.key == pygame.K_UP:
             dx = 0
             dy = -gridSize
-            print("snake going UP")
+            tempPath = "UP"
+            paths += tempPath
+            paths += ","
         if event.key == pygame.K_DOWN:
             dx = 0
             dy = gridSize
-            print("snake going DOWN")
+            tempPath = "DOWN"
+            paths += tempPath
+            paths += ","
+        print("snake going", tempPath)
 
 def moveSnake():
     '''
@@ -64,14 +73,26 @@ def moveSnake():
     x += dx
     y += dy
 
-def drawSnake(length, xCord, yCord):
+def drawSnake(length, xCord, yCord, path):
     '''
     draws the snake
     '''
+    lastPath = getLastElement(path)
+    previousPaths = getPreviousPart(path)
+    print(previousPaths)
+    print(lastPath)
     if length == 1:
-        pygame.draw.rect(gameDisplay, blue, [x, y, gridSize, gridSize])
-    else:
-        drawSnake(length - 1, )
+        pygame.draw.rect(gameDisplay, blue, [xCord, yCord, gridSize, gridSize])
+    else: #length > 1
+        pygame.draw.rect(gameDisplay, blue, [xCord, yCord, gridSize, gridSize])
+        if lastPath == "LEFT":
+            return drawSnake(length - 1, x + gridSize, y, previousPaths)
+        if lastPath == "RIGHT":
+            return drawSnake(length - 1, x - gridSize, y, previousPaths)
+        if lastPath == "UP":
+            return drawSnake(length - 1, x, y + gridSize, previousPaths)
+        if lastPath == "DOWN":
+            return drawSnake(length - 1, x, y - gridSize, previousPaths)
 
 def gameRules():
     '''
@@ -105,6 +126,23 @@ def spawnFood():
     pygame.draw.rect(gameDisplay, red, [foodX, foodY, gridSize, gridSize])
     eaten = False
 
+def getLastElement(pathString):
+    '''
+    return the last element in the given string
+    '''
+    paths = pathString.strip().split(',')
+    lastElement = paths[-1].strip()
+    return lastElement
+
+def getPreviousPart(pathString):
+    '''
+    return the previous element in the given string,
+    excluding the last element
+    '''
+    paths = pathString.strip().split(',')
+    previousPart = ", ".join(paths[:-1]).strip()
+    return previousPart
+
 
 '''
 game session
@@ -118,7 +156,7 @@ while restart:
     gameDisplay = pygame.display.set_mode(windowRes)
     pygame.display.set_caption("Snake Game :D")
     font_style = pygame.font.SysFont(None, 35)
-
+    
     gameOver = False #the game over state
     restart = False
     gameQuit = False
@@ -132,19 +170,19 @@ while restart:
     dx = 0 #delta x, should be set to different values according to key press
     dy = 0 #delta y
     snakeLength = 1
+    paths = "" #records the turns snake has taken
     
-    pygame.draw.rect(gameDisplay, blue, [x, y, gridSize, gridSize]) #set snake head position to center 
+    drawSnake(snakeLength, x, y, paths)
     pygame.display.update()
     
-    print("game resolution set to: ", windowRes)
-
-
+    print("game resolution set to:", windowRes)
+    
+    
     '''
     game running
     '''
     while not gameOver:
         for event in pygame.event.get():
-            #print(event)
             quitGameDetection()
             snakeControlDetection()
         moveSnake()
@@ -152,13 +190,13 @@ while restart:
         gameDisplay.fill(black)
         spawnFood() #spawns the food
         gameRules() #applys game rules
-        pygame.draw.rect(gameDisplay, blue, [x, y, gridSize, gridSize])
-
+        drawSnake(snakeLength, x, y, paths)
+        
         pygame.display.update()
         clock.tick(5) #updates the game at 5fps
     
-
-
+    
+    
     '''
     restart interface
     '''
