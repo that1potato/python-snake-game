@@ -71,20 +71,18 @@ def drawSnake(length, xCord, yCord, path):
     '''
     draws the snake
     '''
-    lastPath = getLastElement(path)
-    previousPaths = getPreviousPart(path)
     if length == 1:
         pygame.draw.rect(gameDisplay, blue, [xCord, yCord, gridSize, gridSize])
     else: #length > 1
         pygame.draw.rect(gameDisplay, blue, [xCord, yCord, gridSize, gridSize])
-        if lastPath == "LEFT":
-            return drawSnake(length - 1, x + gridSize, y, previousPaths)
-        if lastPath == "RIGHT":
-            return drawSnake(length - 1, x - gridSize, y, previousPaths)
-        if lastPath == "UP":
-            return drawSnake(length - 1, x, y + gridSize, previousPaths)
-        if lastPath == "DOWN":
-            return drawSnake(length - 1, x, y - gridSize, previousPaths)
+        if path == "LEFT":
+            ''''''
+        if path == "RIGHT":
+            ''''''
+        if path == "UP":
+            ''''''
+        if path == "DOWN":
+            ''''''
 
 def gameRules():
     '''
@@ -114,28 +112,9 @@ def spawnFood():
     if eaten:
         foodX = round(random.randrange(0, res) / gridSize) * gridSize
         foodY = round(random.randrange(0, res) / gridSize) * gridSize
-        print("Food spawn position", (foodX, foodY))
+        print("Food spawned:", (foodX, foodY))
     pygame.draw.rect(gameDisplay, red, [foodX, foodY, gridSize, gridSize])
     eaten = False
-
-def getLastElement(pathString):
-    '''
-    return the last element in the given string
-    '''
-    p = pathString.strip().split(',')
-    last_element = p[-1].strip()
-    if not last_element:
-        last_element = p[-2].strip()
-    return last_element
-
-def getPreviousPart(pathString):
-    '''
-    return the previous element in the given string,
-    excluding the last element
-    '''
-    p = pathString.strip().split(',')
-    previousPart = ", ".join(p[:-1]).strip()
-    return previousPart
 
 
 '''
