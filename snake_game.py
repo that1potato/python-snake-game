@@ -37,7 +37,7 @@ def snakeControlDetection():
     '''
     control snake movement with UP, DOWN, LEFT, RIGHT
     '''
-    global dx, dy, paths, tempPath
+    global dx, dy
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_LEFT:
             dx = -gridSize
@@ -61,28 +61,20 @@ def moveSnake():
     '''
     moves the snake
     '''
-    global x, y, paths, tempPath
+    global x, y, coords
     x += dx
     y += dy
-    paths += tempPath
-    paths += ","
+    coords[len(coords) - 1] = (x, y) #modify the last element in the coords list
+    tempCoord = [coords[len(coords) - 1]] + coords[:-1]
+    coords = tempCoord
 
-def drawSnake(length, xCord, yCord, path):
+def drawSnake():
     '''
     draws the snake
     '''
-    if length == 1:
+    global coords
+    for (xCord, yCord) in coords:
         pygame.draw.rect(gameDisplay, blue, [xCord, yCord, gridSize, gridSize])
-    else: #length > 1
-        pygame.draw.rect(gameDisplay, blue, [xCord, yCord, gridSize, gridSize])
-        if path == "LEFT":
-            ''''''
-        if path == "RIGHT":
-            ''''''
-        if path == "UP":
-            ''''''
-        if path == "DOWN":
-            ''''''
 
 def gameRules():
     '''
@@ -143,10 +135,9 @@ while restart:
     dx = 0 #delta x, should be set to different values according to key press
     dy = 0 #delta y
     snakeLength = 1
-    paths = "" #records the turns snake has taken
-    tempPath = ""
+    coords = [(x, y), (x - gridSize, y), (x - 2*gridSize, y)]
     
-    drawSnake(snakeLength, x, y, paths)
+    drawSnake()
     pygame.display.update()
     
     print("game resolution set to:", windowRes)
@@ -164,7 +155,7 @@ while restart:
         gameDisplay.fill(black)
         spawnFood() #spawns the food
         gameRules() #applys game rules
-        drawSnake(snakeLength, x, y, paths)
+        drawSnake()
         
         pygame.display.update()
         clock.tick(3) #updates the game at 5fps
