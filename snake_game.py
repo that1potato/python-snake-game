@@ -194,6 +194,11 @@ while restart:
     gameDisplay.fill(black)
     message("Game Over, press R to restart.", white)
     pygame.display.update()
+    print("--------------------")
+    print("YOU DIED HAHAHAHAHAHAHA!")
+    print("Score", score)
+    print("--------------------")
+    print("\n")
     while not restart:
         for event in pygame.event.get():
             quitGameDetection()
