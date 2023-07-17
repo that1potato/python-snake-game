@@ -88,11 +88,16 @@ def gameRules():
     headX = head[0]
     headY = head[1]
     #ends the game if snake bumps into the bundary
-    if headX > res - 1 or headX < 1 or headY > res - 1 or headY < 1:
+    if headX > res or headX < 0 or headY > res or headY < 0:
         gameOver = True
-        print(head)
     
     #ends the game if snake bumps into itself
+    if snakeLength > 3:
+        for i in range(len(coords)):
+            if i == 0:
+                continue
+            elif head == coords[i]:
+                gameOver = True
     
     #score++ and snakeLength++ when the snake eats the food
     if headX == foodX and headY == foodY:
@@ -109,8 +114,8 @@ def spawnFood():
     '''
     global eaten, foodX, foodY
     if eaten:
-        foodX = round(random.randrange(0, res) / gridSize) * gridSize
-        foodY = round(random.randrange(0, res) / gridSize) * gridSize
+        foodX = round(random.randrange(0, res - gridSize) / gridSize) * gridSize
+        foodY = round(random.randrange(0, res - gridSize) / gridSize) * gridSize
         print("Food spawned:", (foodX, foodY))
     pygame.draw.rect(gameDisplay, red, [foodX, foodY, gridSize, gridSize])
     eaten = False
