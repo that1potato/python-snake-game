@@ -82,18 +82,25 @@ def gameRules():
     any unsatisfied condition should cause gameOver = True,
     when the snake eats the food score should +1
     '''
-    global gameOver, score, eaten, snakeLength
+    global gameOver, score, eaten, snakeLength, coords
+    tail = coords[-1]
+    head = coords[0]
+    headX = head[0]
+    headY = head[1]
     #ends the game if snake bumps into the bundary
-    if x >= res or x < 0 or y >= res or y < 0:
+    if headX > res - 1 or headX < 1 or headY > res - 1 or headY < 1:
         gameOver = True
+        print(head)
     
     #ends the game if snake bumps into itself
     
     #score++ and snakeLength++ when the snake eats the food
-    if x == foodX and y == foodY:
+    if headX == foodX and headY == foodY:
         score += 1
         snakeLength += 1
         eaten = True
+        tempdx, tempdy = getDir()
+        coords.append((tail[0] + tempdx, tail[1] + tempdy))
         print("yum~")
 
 def spawnFood():
@@ -107,6 +114,20 @@ def spawnFood():
         print("Food spawned:", (foodX, foodY))
     pygame.draw.rect(gameDisplay, red, [foodX, foodY, gridSize, gridSize])
     eaten = False
+
+def getDir():
+    '''
+    get the snake moving direction
+    '''
+    if snakeLength > 2:
+        tailCord = coords[-1]
+        tempCord = coords[-2]
+        tempdx = tailCord[0] - tempCord[0]
+        tempdy = tailCord[1] - tempCord[1]
+    else:
+        tempdx = dx
+        tempdy = dy
+    return tempdx, tempdy
 
 
 '''
@@ -135,7 +156,7 @@ while restart:
     dx = 0 #delta x, should be set to different values according to key press
     dy = 0 #delta y
     snakeLength = 1
-    coords = [(x, y), (x - gridSize, y), (x - 2*gridSize, y)]
+    coords = [(x, y)]
     
     drawSnake()
     pygame.display.update()
