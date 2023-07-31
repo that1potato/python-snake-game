@@ -37,21 +37,21 @@ def snakeControlDetection():
     '''
     control snake movement with UP, DOWN, LEFT, RIGHT
     '''
-    global dx, dy
+    global dx, dy, tempPath
     if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_LEFT:
+        if event.key == pygame.K_LEFT and not tempPath == "RIGHT":
             dx = -gridSize
             dy = 0
             tempPath = "LEFT"
-        if event.key == pygame.K_RIGHT:
+        if event.key == pygame.K_RIGHT and not tempPath == "LEFT":
             dx = gridSize
             dy = 0
             tempPath = "RIGHT"
-        if event.key == pygame.K_UP:
+        if event.key == pygame.K_UP and not tempPath == "DOWN":
             dx = 0
             dy = -gridSize
             tempPath = "UP"
-        if event.key == pygame.K_DOWN:
+        if event.key == pygame.K_DOWN and not tempPath == "UP":
             dx = 0
             dy = gridSize
             tempPath = "DOWN"
@@ -162,6 +162,7 @@ while restart:
     dy = 0 #delta y
     snakeLength = 1
     coords = [(x, y)]
+    tempPath = ""
     
     drawSnake()
     pygame.display.update()
@@ -184,7 +185,7 @@ while restart:
         drawSnake()
         
         pygame.display.update()
-        clock.tick(3) #updates the game at 5fps
+        clock.tick(5) #updates the game at 5fps
     
     
     
